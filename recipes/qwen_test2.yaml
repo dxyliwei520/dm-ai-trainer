@@ -1,0 +1,60 @@
+job: "extension"
+config:
+  name: "qwen_test2"
+  process:
+    - type: "sd_trainer"
+      training_folder: "E:/ai-train/runs"
+      device: "cuda:0"
+      network:
+        type: "lora"
+        linear: 16
+        linear_alpha: 16
+      save:
+        dtype: "float16"
+        save_every: 20
+        max_step_saves_to_keep: 4
+      datasets:
+        - folder_path: "E:/ai-train/datasets/qwen_test2/target"
+          control_path: "E:/ai-train/datasets/qwen_test2/control"
+          caption_ext: "txt"
+          caption_dropout_rate: 0.05
+          resolution:
+            - 512
+      train:
+        batch_size: 1
+        cache_text_embeddings: true
+        steps: 20
+        gradient_accumulation: 1
+        timestep_type: "weighted"
+        train_unet: true
+        train_text_encoder: false
+        gradient_checkpointing: true
+        noise_scheduler: "flowmatch"
+        optimizer: "adamw8bit"
+        lr: 0.0001
+        dtype: "bf16"
+        skip_first_sample: true
+      model:
+        name_or_path: "F:/ComfyUI_windows_portable_nvidia/ComfyUI_windows_portable/ComfyUI/models/diffusion_models/qwen_image_2.1_int8_convrot.safetensors"
+        extras_name_or_path: "Qwen/Qwen-Image-2.1"
+        arch: "qwen_image_2"
+        quantize: true
+        low_vram: true
+      sample:
+        sampler: "flowmatch"
+        sample_every: 250
+        width: 512
+        height: 512
+        samples:
+          - prompt: "把画面调亮、偏暖、提高饱和度，构图和内容保持不变"
+            ctrl_img: "E:/ai-train/datasets/qwen_test2/control/001.png"
+          - prompt: "把画面调亮、偏暖、提高饱和度，构图和内容保持不变"
+            ctrl_img: "E:/ai-train/datasets/qwen_test2/control/002.png"
+        neg: ""
+        seed: 42
+        walk_seed: true
+        guidance_scale: 3
+        sample_steps: 20
+meta:
+  name: "qwen_test2"
+  version: "1.0"

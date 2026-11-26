@@ -1,0 +1,60 @@
+job: "extension"
+config:
+  name: "qwen_ces"
+  process:
+    - type: "sd_trainer"
+      training_folder: "E:/ai-train/runs"
+      device: "cuda:0"
+      network:
+        type: "lora"
+        linear: 16
+        linear_alpha: 16
+      save:
+        dtype: "float16"
+        save_every: 250
+        max_step_saves_to_keep: 4
+      datasets:
+        - folder_path: "E:/ai-train/datasets/qwen_ces/target"
+          control_path: "E:/ai-train/datasets/qwen_ces/_slots/1"
+          caption_ext: "txt"
+          caption_dropout_rate: 0.05
+          resolution:
+            - 1024
+      train:
+        batch_size: 1
+        cache_text_embeddings: true
+        steps: 1500
+        gradient_accumulation: 1
+        timestep_type: "weighted"
+        train_unet: true
+        train_text_encoder: false
+        gradient_checkpointing: true
+        noise_scheduler: "flowmatch"
+        optimizer: "adamw8bit"
+        lr: 0.0001
+        dtype: "bf16"
+        skip_first_sample: false
+      model:
+        name_or_path: "F:/ComfyUI_windows_portable_nvidia/ComfyUI_windows_portable/ComfyUI/models/diffusion_models/qwen_image_2.1_int8_convrot.safetensors"
+        extras_name_or_path: "Qwen/Qwen-Image-2.1"
+        arch: "qwen_image_2"
+        quantize: true
+        low_vram: true
+      sample:
+        sampler: "flowmatch"
+        sample_every: 250
+        width: 1024
+        height: 1024
+        samples:
+          - prompt: "图1和图2站在一起"
+            ctrl_img: "E:/ai-train/datasets/qwen_ces/_slots/1/001.png"
+          - prompt: "图1和图2站在一起"
+            ctrl_img: "E:/ai-train/datasets/qwen_ces/_slots/1/002.png"
+        neg: ""
+        seed: 42
+        walk_seed: true
+        guidance_scale: 3
+        sample_steps: 20
+meta:
+  name: "qwen_ces"
+  version: "1.0"

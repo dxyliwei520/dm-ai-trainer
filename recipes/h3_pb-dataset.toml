@@ -1,0 +1,11 @@
+[general]
+resolution = [448, 256]
+caption_extension = ".txt"
+batch_size = 1
+enable_bucket = false
+
+[[datasets]]
+video_directory = "E:/ai-train/datasets/h3_pb/videos"
+cache_directory = "E:/ai-train/runs/h3_pb/cache"
+caption_extension = ".txt"
+target_frames = [22]

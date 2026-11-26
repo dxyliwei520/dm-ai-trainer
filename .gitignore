@@ -1,0 +1,13 @@
+﻿models/
+datasets/
+runs/
+env-*/
+_dist/
+src/
+__pycache__/
+*.safetensors
+*.ckpt
+*.pt
+*.pth
+*.zip
+*.log
